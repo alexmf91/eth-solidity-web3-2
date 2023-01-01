@@ -1,0 +1,12 @@
+{
+  "name": "fundme",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {},
+  "author": "alexmf91",
+  "license": "ISC",
+  "dependencies": {
+    "@chainlink/contracts": "^0.5.1",
+    "solc": "^0.8.0"
+  }
+}
