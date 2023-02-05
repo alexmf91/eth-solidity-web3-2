@@ -26,12 +26,8 @@ This is a section of the Javascript Blockchain/Smart Contract FreeCodeCamp Cours
 - [In it's current state, if you have your api key set, it will auto verify rinkeby contracts!](#in-its-current-state-if-you-have-your-api-key-set-it-will-auto-verify-rinkeby-contracts)
 - [Linting](#linting)
 - [Thank you!](#thank-you)
-<<<<<<< HEAD
-- [Usage](#usage)
-=======
     - [Optional Gitpod](#optional-gitpod)
 - [Useage](#useage)
->>>>>>> 4a00535 (goerli update)
   - [Testing](#testing)
     - [Test Coverage](#test-coverage)
   - [Estimate gas](#estimate-gas)
@@ -149,22 +145,14 @@ Head over to [faucets.chain.link](https://faucets.chain.link/) and get some tesn
 3. Deploy
 
 ```
-<<<<<<< HEAD
-npx hardhat run scripts/deploy.js --network rinkeby
-=======
 npx hardhat run scripts/deploy.js --network goerli
->>>>>>> 4a00535 (goerli update)
 ```
 
 ### Verify on etherscan
 
 If you deploy to a testnet or mainnet, you can verify it if you get an [API Key](https://etherscan.io/myapikey) from Etherscan and set it as an environment variable named `ETHERSCAN_API_KEY`. You can pop it into your `.env` file as seen in the `.env.example`.
 
-<<<<<<< HEAD
-In it's current state, if you have your api key set, it will auto verify rinkeby contracts!
-=======
 In it's current state, if you have your api key set, it will auto verify goerli contracts!
->>>>>>> 4a00535 (goerli update)
 
 However, you can manual verify with:
 
@@ -184,12 +172,3 @@ yarn lint:fix
 ```
 
 # Thank you!
-
-If you appreciated this, feel free to follow me or donate!
-
-ETH/Polygon/Avalanche/etc Address: 0x9680201d9c93d65a3603d2088d125e955c73BD65
-
-[![Patrick Collins Twitter](https://img.shields.io/badge/Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/PatrickAlphaC)
-[![Patrick Collins YouTube](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/channel/UCn-3f8tw_E1jZvhuHatROwA)
-[![Patrick Collins Linkedin](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/patrickalphac/)
-[![Patrick Collins Medium](https://img.shields.io/badge/Medium-000000?style=for-the-badge&logo=medium&logoColor=white)](https://medium.com/@patrick.collins_58673/)

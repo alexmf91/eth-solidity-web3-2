@@ -1,32 +1,31 @@
-# Hardhat Fund Me
+# Hardhat Smartcontract Lottery (Raffle) FCC
 
 *This repo has been updated to work with Goerli over Rinkeby.*
 
 This is a section of the Javascript Blockchain/Smart Contract FreeCodeCamp Course.
 
-*[⌨️ (10:00:48) Lesson 7: Hardhat Fund Me](https://www.youtube.com/watch?v=gyMwXuJrbJQ&t=36048s)*
+*[⌨️ (13:41:02) Lesson 9: Hardhat Smart Contract Lottery](https://www.youtube.com/watch?v=gyMwXuJrbJQ&t=49262s)*
 
 [Full Repo](https://github.com/smartcontractkit/full-blockchain-solidity-course-js)
 
-- [Hardhat Fund Me](#hardhat-fund-me)
+- [Hardhat Smartcontract Lottery (Raffle) FCC](#hardhat-smartcontract-lottery-raffle-fcc)
 - [Getting Started](#getting-started)
   - [Requirements](#requirements)
   - [Quickstart](#quickstart)
   - [Typescript](#typescript)
-    - [Optional Gitpod](#optional-gitpod)
 - [Usage](#usage)
   - [Testing](#testing)
     - [Test Coverage](#test-coverage)
 - [Deployment to a testnet or mainnet](#deployment-to-a-testnet-or-mainnet)
-  - [Scripts](#scripts)
-  - [Estimate gas](#estimate-gas)
     - [Estimate gas cost in USD](#estimate-gas-cost-in-usd)
   - [Verify on etherscan](#verify-on-etherscan)
+    - [Typescript differences](#typescript-differences)
 - [Linting](#linting)
-- [Formatting](#formatting)
 - [Thank you!](#thank-you)
 
 This project is apart of the Hardhat FreeCodeCamp video.
+
+Checkout the full blockchain course video [here.](https://www.youtube.com/watch?v=gyMwXuJrbJQ)
 
 # Getting Started
 
@@ -45,24 +44,19 @@ This project is apart of the Hardhat FreeCodeCamp video.
 ## Quickstart
 
 ```
-git clone https://github.com/PatrickAlphaC/hardhat-fund-me-fcc
-cd hardhat-fund-me-fcc
+git clone https://github.com/PatrickAlphaC/hardhat-smartcontract-lottery-fcc
+cd hardhat-smartcontract-lottery-fcc
 yarn
 ```
 
 ## Typescript
 
-For the typescript edition, run:
+If you want to get to typescript and you cloned the javascript version, just run:
 
 ```
 git checkout typescript
+yarn 
 ```
-
-### Optional Gitpod
-
-If you can't or don't want to run and install locally, you can work with this repo in Gitpod. If you do this, you can skip the `clone this repo` part.
-
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#github.com/PatrickAlphaC/hardhat-fund-me-fcc)
 
 # Usage
 
@@ -85,9 +79,10 @@ yarn hardhat coverage
 ```
 
 
+
 # Deployment to a testnet or mainnet
 
-1. Setup environment variables
+1. Setup environment variabltes
 
 You'll want to set your `GOERLI_RPC_URL` and `PRIVATE_KEY` as environment variables. You can add them to a `.env` file, similar to what you see in `.env.example`.
 
@@ -97,42 +92,54 @@ You'll want to set your `GOERLI_RPC_URL` and `PRIVATE_KEY` as environment variab
 
 2. Get testnet ETH
 
-Head over to [faucets.chain.link](https://faucets.chain.link/) and get some tesnet ETH. You should see the ETH show up in your metamask.
+Head over to [faucets.chain.link](https://faucets.chain.link/) and get some tesnet ETH & LINK. You should see the ETH and LINK show up in your metamask. [You can read more on setting up your wallet with LINK.](https://docs.chain.link/docs/deploy-your-first-contract/#install-and-fund-your-metamask-wallet)
+
+3. Setup a Chainlink VRF Subscription ID
+
+Head over to [vrf.chain.link](https://vrf.chain.link/) and setup a new subscription, and get a subscriptionId. You can reuse an old subscription if you already have one. 
+
+[You can follow the instructions](https://docs.chain.link/docs/get-a-random-number/) if you get lost. You should leave this step with:
+
+1. A subscription ID
+2. Your subscription should be funded with LINK
 
 3. Deploy
 
+In your `helper-hardhat-config.js` add your `subscriptionId` under the section of the chainId you're using (aka, if you're deploying to goerli, add your `subscriptionId` in the `subscriptionId` field under the `4` section.)
+
+Then run:
 ```
 yarn hardhat deploy --network goerli
 ```
 
-## Scripts
+And copy / remember the contract address. 
 
-After deploy to a testnet or local net, you can run the scripts. 
+4. Add your contract address as a Chainlink VRF Consumer
+
+Go back to [vrf.chain.link](https://vrf.chain.link) and under your subscription add `Add consumer` and add your contract address. You should also fund the contract with a minimum of 1 LINK. 
+
+5. Register a Chainlink Keepers Upkeep
+
+[You can follow the documentation if you get lost.](https://docs.chain.link/docs/chainlink-keepers/compatible-contracts/)
+
+Go to [keepers.chain.link](https://keepers.chain.link/new) and register a new upkeep. Choose `Custom logic` as your trigger mechanism for automation. Your UI will look something like this once completed:
+
+![Keepers](./img/keepers.png)
+
+6. Enter your raffle!
+
+You're contract is now setup to be a tamper proof autonomous verifiably random lottery. Enter the lottery by running:
 
 ```
-yarn hardhat run scripts/fund.js
+yarn hardhat run scripts/enter.js --network goerli
 ```
-
-or
-```
-yarn hardhat run scripts/withdraw.js
-```
-
-## Estimate gas
-
-You can estimate how much gas things cost by running:
-
-```
-yarn hardhat test
-```
-
-And you'll see and output file called `gas-report.txt`
 
 ### Estimate gas cost in USD
 
 To get a USD estimation of gas cost, you'll need a `COINMARKETCAP_API_KEY` environment variable. You can get one for free from [CoinMarketCap](https://pro.coinmarketcap.com/signup). 
 
 Then, uncomment the line `coinmarketcap: COINMARKETCAP_API_KEY,` in `hardhat.config.js` to get the USD estimation. Just note, everytime you run your tests it will use an API call, so it might make sense to have using coinmarketcap disabled until you need it. You can disable it by just commenting the line back out. 
+
 
 
 ## Verify on etherscan
@@ -147,9 +154,17 @@ However, you can manual verify with:
 yarn hardhat verify --constructor-args arguments.js DEPLOYED_CONTRACT_ADDRESS
 ```
 
-# Linting
+### Typescript differences
+1. `.js` files are now `.ts`
+2. We added a bunch of typescript and typing packages to our `package.json`. They can be installed with:
+   1. `yarn add @typechain/ethers-v5 @typechain/hardhat @types/chai @types/node ts-node typechain typescript`
+3. The biggest one being [typechain](https://github.com/dethcrypto/TypeChain)
+   1. This gives your contracts static typing, meaning you'll always know exactly what functions a contract can call. 
+   2. This gives us `factories` that are specific to the contracts they are factories of. See the tests folder for a version of how this is implemented. 
+4. We use `imports` instead of `require`. Confusing to you? [Watch this video](https://www.youtube.com/watch?v=mK54Cn4ceac)
+5. Add `tsconfig.json`
 
-`solhint` installation: [Documentation](https://protofire.github.io/solhint/#installation)
+# Linting
 
 To check linting / code formatting:
 ```
@@ -159,12 +174,3 @@ or, to fix:
 ```
 yarn lint:fix
 ```
-
-# Formatting 
-
-```
-yarn format
-```
-
-
-# Thank you!
